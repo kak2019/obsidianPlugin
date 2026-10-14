@@ -1,92 +1,39 @@
-# Obsidian Sample Plugin
+# 笔记助手
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+在 Obsidian 侧边栏里用对话修改当前笔记。提问时先在本机检索库里的 Markdown，再交给小米 MiMo 回答。Embedding 是可选的语义补充。
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## 会发送哪些数据
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
+- 提问、当前笔记和检索到的笔记片段会发送到你填写的 **MiMo** 地址。
+- 本地全文索引留在本机，不会为此把整库笔记发出去。
+- 如果另外建立了 Embedding 索引，笔记片段会发送到你填写的 **Embedding** 地址。
+- 问答模式打开 **联网** 后，MiMo 会额外做网页搜索。搜索按次计费（小米文档：国内约 ¥16 / 1000 次，一轮可能按关键词多次计费）。使用前要在 MiMo 控制台开通联网服务插件。
+- API Key 只保存在本机插件数据里，不会写进笔记。
 
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and outputs a Notice on click.
-- Registers a global interval which logs 'setInterval' to the console.
+## 设置
 
-## First time developing plugins?
+打开 **Settings → Community plugins → 笔记助手**：
 
-Quick starting guide for new plugin devs:
+- **MiMo API Key**、**MiMo Base URL**、**对话模型**。默认地址是 `https://api.xiaomimimo.com/v1`。模型可以选 `mimo-v2.6-pro`、`mimo-v2.6-flash`、`mimo-v2.6-pro-ultraspeed`。
+- **Embedding API Key**、**Embedding Base URL**、**Embedding 模型名**。这组是可选的。Base URL 填到 `/v1` 为止，不要带 `/embeddings`。
+- **检索条数**：每次提问最多带上多少段相关笔记。
+- **重建索引**：只在你想用向量补充检索时需要。本地全文检索会在打开插件后自动覆盖库里的 Markdown。
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `src/main.ts` to `main.js`.
-- Make changes to `src/main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+## 使用
 
-## Releasing new releases
+1. 点击功能区图标，或运行命令 **打开对话**。
+2. **问答**：输入问题。回答会带上本机检索到的相关笔记；打开 **联网** 后还会列出网页来源。回答下面可以 **插入光标处**、**替换选区** 或 **追加到文末**。
+3. **修改当前笔记**：先打开要改的笔记，再说明怎么改。确认预览后，点 **覆盖整篇笔记** 才会整篇替换。点 **放弃** 则不改文件。
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+当前笔记超过约 3 万字时，只会把前 3 万字发给模型。
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+## 开发
 
-## Adding your plugin to the community plugin list
+需要 Obsidian 1.7.2 或更高版本，以及 Node.js 18 或更高版本。
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- Make sure your NodeJS is at least v18 (`node --version`).
-- `npm i` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint
-
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code.
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-	"fundingUrl": "https://buymeacoffee.com"
-}
+```bash
+npm install
+npm run dev
 ```
 
-If you have multiple URLs, you can also do:
-
-```json
-{
-	"fundingUrl": {
-		"Buy Me a Coffee": "https://buymeacoffee.com",
-		"GitHub Sponsor": "https://github.com/sponsors",
-		"Patreon": "https://www.patreon.com/"
-	}
-}
-```
-
-## API Documentation
-
-See https://docs.obsidian.md
+把 `main.js`、`manifest.json` 和 `styles.css` 复制到库的 `.obsidian/plugins/note-assistant/`，然后在 **Settings → Community plugins** 里启用。

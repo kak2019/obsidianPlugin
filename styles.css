@@ -1,8 +1,179 @@
-/*
+.note-assistant-view {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 10px;
+	box-sizing: border-box;
+	padding: 4px 2px 8px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.note-assistant-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
 
-If your plugin does not need CSS, delete this file.
+.note-assistant-view button.note-assistant-mode,
+.note-assistant-view button.note-assistant-chip,
+.note-assistant-view button.note-assistant-send {
+	height: auto;
+	box-shadow: none;
+	font-size: var(--font-ui-smaller);
+	line-height: 1.4;
+}
 
-*/
+.note-assistant-view button.note-assistant-mode,
+.note-assistant-view button.note-assistant-chip {
+	background: transparent;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 999px;
+	color: var(--text-muted);
+	padding: 3px 10px;
+}
+
+.note-assistant-view button.note-assistant-mode:hover,
+.note-assistant-view button.note-assistant-chip:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-normal);
+}
+
+.note-assistant-view button.note-assistant-mode.is-active {
+	background: var(--interactive-accent);
+	border-color: transparent;
+	color: var(--text-on-accent);
+}
+
+.note-assistant-web {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 999px;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	padding: 3px 10px;
+}
+
+.note-assistant-web.is-on {
+	border-color: var(--interactive-accent);
+	color: var(--text-accent);
+}
+
+.note-assistant-messages {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding-right: 2px;
+}
+
+.note-assistant-msg {
+	max-width: 100%;
+	padding: 10px 12px;
+	border-radius: var(--radius-l);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-primary);
+}
+
+.note-assistant-msg.is-user {
+	align-self: flex-end;
+	width: fit-content;
+	max-width: 88%;
+	background: color-mix(in srgb, var(--interactive-accent) 14%, var(--background-primary));
+	border-color: color-mix(in srgb, var(--interactive-accent) 35%, var(--background-modifier-border));
+}
+
+.note-assistant-msg.is-assistant {
+	align-self: stretch;
+}
+
+.note-assistant-msg.is-status,
+.note-assistant-msg.is-index-prompt {
+	align-self: stretch;
+	border: none;
+	background: transparent;
+	color: var(--text-muted);
+	padding: 0 4px;
+}
+
+.note-assistant-plain {
+	white-space: pre-wrap;
+}
+
+.note-assistant-body {
+	font-size: var(--font-ui-small);
+}
+
+.note-assistant-body p {
+	margin-top: 0;
+	margin-bottom: 0.4em;
+}
+
+.note-assistant-label,
+.note-assistant-hint {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	margin-bottom: 6px;
+}
+
+.note-assistant-sources {
+	margin-top: 8px;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+}
+
+.note-assistant-sources summary {
+	cursor: pointer;
+}
+
+.note-assistant-source-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.note-assistant-source-list a {
+	color: var(--text-accent);
+}
+
+.note-assistant-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 8px;
+}
+
+.note-assistant-composer {
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+	padding: 8px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-l);
+	background: var(--background-primary);
+}
+
+.note-assistant-composer textarea {
+	flex: 1;
+	width: 100%;
+	min-height: 44px;
+	max-height: 160px;
+	resize: vertical;
+	border: none;
+	box-shadow: none;
+	background: transparent;
+	padding: 4px;
+}
+
+.note-assistant-composer textarea:focus {
+	box-shadow: none;
+}
+
+.note-assistant-view button.note-assistant-send {
+	border-radius: var(--radius-s);
+	padding: 6px 12px;
+}
